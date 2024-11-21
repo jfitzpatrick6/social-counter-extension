@@ -12,6 +12,10 @@ chrome.runtime.onInstalled.addListener(() => {
 
 // Listen for messages from content script or popup
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.action === 'openPopup') {
+        // Open the popup programmatically (simulates user click on extension icon)
+        chrome.action.openPopup();
+    }
     if (message.type === 'TRACK_TIME') {
         const { site, time } = message;
         // If this is the first time tracking time for this site, initialize its time

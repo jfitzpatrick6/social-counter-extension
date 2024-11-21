@@ -13,26 +13,42 @@ function isSocialMediaSite() {
     return socialMediaSites.some((site) => window.location.hostname.includes(site));
 }
 
+// Create the floating UI element
+function createFloatingCounter() {
+    const counterDiv = document.createElement('div');
+    counterDiv.id = 'time-tracker';
+    counterDiv.style.position = 'fixed';
+    counterDiv.style.bottom = '10px';
+    counterDiv.style.right = '10px';
+    counterDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    counterDiv.style.color = 'white';
+    counterDiv.style.padding = '10px';
+    counterDiv.style.borderRadius = '5px';
+    counterDiv.style.fontSize = '16px';
+    counterDiv.style.zIndex = '9999';
+    counterDiv.innerHTML = `Time Spent: 0 mins`;
+    document.body.appendChild(counterDiv);
+}
+
+// Update the counter in the UI
+function updateFloatingCounter(time) {
+    const counterDiv = document.getElementById('time-tracker');
+    if (counterDiv) {
+        counterDiv.innerHTML = `Time Spent: ${Math.floor(time / 60)} mins ${time % 60} secs`;
+    }
+}
+
 // Start tracking time
 function startTracking() {
     if (isSocialMediaSite()) {
         console.log(`Started tracking on: ${window.location.hostname}`);
+        
+        // Create the floating counter
+        createFloatingCounter();
+
         intervalId = setInterval(() => {
             timeSpent += 1;
-
-            // Save the time spent for the current site in chrome storage
-            chrome.storage.local.get('totalTimeBySite', (data) => {
-                const totalTimeBySite = data.totalTimeBySite || {};
-
-                // Update time for the current site
-                if (!totalTimeBySite[window.location.hostname]) {
-                    totalTimeBySite[window.location.hostname] = 0;
-                }
-                totalTimeBySite[window.location.hostname] += 1;
-
-                // Save the updated time back to chrome storage
-                chrome.storage.local.set({ totalTimeBySite });
-            });
+            updateFloatingCounter(timeSpent);
         }, 1000);
     }
 }
@@ -40,20 +56,6 @@ function startTracking() {
 function stopTracking() {
     clearInterval(intervalId);
     console.log(`Stopped tracking on: ${window.location.hostname}. Total time spent: ${timeSpent}`);
-
-    // When the page is unloaded, save the final time
-    chrome.storage.local.get('totalTimeBySite', (data) => {
-        const totalTimeBySite = data.totalTimeBySite || {};
-        
-        // Update the time for the current site
-        if (!totalTimeBySite[window.location.hostname]) {
-            totalTimeBySite[window.location.hostname] = 0;
-        }
-        totalTimeBySite[window.location.hostname] += timeSpent;
-
-        // Save the updated time to chrome storage
-        chrome.storage.local.set({ totalTimeBySite });
-    });
 }
 
 // Start tracking when the page loads
