@@ -1,0 +1,25 @@
+{
+    "manifest_version": 3,
+    "name": "Social Media Counter",
+    "version": "1.0",
+    "description": "Tracks time spent on social media websites.",
+    "permissions": ["activeTab", "tabs"],
+    "host_permissions": ["*://*.facebook.com/*", "*://*.twitter.com/*", "*://*.instagram.com/*", "*://*.reddit.com/*"],
+    "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+        "16": "images/clock.svg",
+        "48": "images/clock.svg",
+        "128": "images/clock.svg"
+    }
+    },
+    "background": {
+    "service_worker": "background.js"
+    },
+    "content_scripts": [
+    {
+        "matches": ["*://*.facebook.com/*", "*://*.twitter.com/*", "*://*.instagram.com/*", "*://*.reddit.com/*"],
+        "js": ["content.js"]
+    }
+    ]
+}
