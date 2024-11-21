@@ -43,8 +43,10 @@ function startTracking() {
     if (isSocialMediaSite()) {
         console.log(`Started tracking on: ${window.location.hostname}`);
         createFloatingCounter();
+        loadTimeSpent();
         intervalId = setInterval(() => {
             timeSpent += 1;
+            saveTimeSpent();
             updateFloatingCounter(timeSpent);
         }, 1000);
     }
@@ -52,7 +54,19 @@ function startTracking() {
 
 function stopTracking() {
     clearInterval(intervalId);
-    console.log(`Stopped tracking on: ${window.location.hostname}. Total time spent: ${timeSpent}`);
+}
+
+function loadTimeSpent() {
+    chrome.storage.local.get('trackingWastedTime', (data) => {
+        if (data['trackingWastedTime']) {
+            timeSpent = data['trackingWastedTime'];
+        }
+    });
+}
+
+// Save time spent to chrome storage
+function saveTimeSpent() {
+    chrome.storage.local.set({ ['trackingWastedTime']: timeSpent });
 }
 
 // Start tracking when the page loads

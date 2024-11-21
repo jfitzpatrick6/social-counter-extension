@@ -13,9 +13,6 @@
         "128": "images/clock.svg"
     }
     },
-    "background": {
-    "service_worker": "background.js"
-    },
     "content_scripts": [
     {
         "matches": ["*://*.facebook.com/*", "*://*.twitter.com/*", "*://*.instagram.com/*", "*://*.reddit.com/*"],
