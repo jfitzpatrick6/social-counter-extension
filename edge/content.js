@@ -19,10 +19,19 @@ function startTracking() {
         console.log(`Started tracking on: ${window.location.hostname}`);
         intervalId = setInterval(() => {
             timeSpent += 1;
-            // Send the time spent to the popup
-            chrome.runtime.sendMessage({
-                action: 'updateTime',
-                time: timeSpent
+
+            // Save the time spent for the current site in chrome storage
+            chrome.storage.local.get('totalTimeBySite', (data) => {
+                const totalTimeBySite = data.totalTimeBySite || {};
+
+                // Update time for the current site
+                if (!totalTimeBySite[window.location.hostname]) {
+                    totalTimeBySite[window.location.hostname] = 0;
+                }
+                totalTimeBySite[window.location.hostname] += 1;
+
+                // Save the updated time back to chrome storage
+                chrome.storage.local.set({ totalTimeBySite });
             });
         }, 1000);
     }
@@ -31,7 +40,24 @@ function startTracking() {
 function stopTracking() {
     clearInterval(intervalId);
     console.log(`Stopped tracking on: ${window.location.hostname}. Total time spent: ${timeSpent}`);
+
+    // When the page is unloaded, save the final time
+    chrome.storage.local.get('totalTimeBySite', (data) => {
+        const totalTimeBySite = data.totalTimeBySite || {};
+        
+        // Update the time for the current site
+        if (!totalTimeBySite[window.location.hostname]) {
+            totalTimeBySite[window.location.hostname] = 0;
+        }
+        totalTimeBySite[window.location.hostname] += timeSpent;
+
+        // Save the updated time to chrome storage
+        chrome.storage.local.set({ totalTimeBySite });
+    });
 }
 
+// Start tracking when the page loads
 startTracking();
+
+// Stop tracking when the page is unloaded
 window.addEventListener('beforeunload', stopTracking);

@@ -14,7 +14,6 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === 'TRACK_TIME') {
         const { site, time } = message;
-
         // If this is the first time tracking time for this site, initialize its time
         if (!totalTimeBySite[site]) {
             totalTimeBySite[site] = 0;
@@ -31,7 +30,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         // Optionally, send the updated time to the content script or popup
         sendResponse({ totalTimeBySite });
     }
-    
     // Ensure the response is sent asynchronously
     return true;
 });

@@ -3,7 +3,7 @@
     "name": "Social Media Counter",
     "version": "1.0",
     "description": "Tracks time spent on social media websites.",
-    "permissions": ["activeTab", "tabs"],
+    "permissions": ["activeTab", "tabs", "storage"],
     "host_permissions": ["*://*.facebook.com/*", "*://*.twitter.com/*", "*://*.instagram.com/*", "*://*.reddit.com/*"],
     "action": {
     "default_popup": "popup.html",
