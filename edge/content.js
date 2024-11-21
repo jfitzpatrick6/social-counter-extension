@@ -42,10 +42,7 @@ function updateFloatingCounter(time) {
 function startTracking() {
     if (isSocialMediaSite()) {
         console.log(`Started tracking on: ${window.location.hostname}`);
-        
-        // Create the floating counter
         createFloatingCounter();
-
         intervalId = setInterval(() => {
             timeSpent += 1;
             updateFloatingCounter(timeSpent);
