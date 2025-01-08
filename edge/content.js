@@ -50,6 +50,9 @@ function startTracking() {
             updateFloatingCounter(timeSpent);
         }, 1000);
     }
+    if (window.location.hostname.includes("reddit.com")){
+        window.location.href = "about:blank";
+    }
 }
 
 function stopTracking() {
