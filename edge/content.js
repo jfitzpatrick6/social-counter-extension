@@ -2,10 +2,11 @@ let timeSpent = 0;
 let intervalId;
 
 const socialMediaSites = [
-    'facebook.com',
-    'twitter.com',
-    'instagram.com',
-    'reddit.com'
+  'facebook.com',
+  'twitter.com',
+  'instagram.com',
+  'reddit.com',
+  'youtube.com'
 ];
 
 // Check if the current site is a social media site
@@ -40,19 +41,24 @@ function updateFloatingCounter(time) {
 
 // Start tracking time
 function startTracking() {
-    if (isSocialMediaSite()) {
-        console.log(`Started tracking on: ${window.location.hostname}`);
-        createFloatingCounter();
-        loadTimeSpent();
-        intervalId = setInterval(() => {
-            timeSpent += 1;
-            saveTimeSpent();
-            updateFloatingCounter(timeSpent);
-        }, 1000);
+  if (isSocialMediaSite()) {
+    console.log(`Started tracking on: ${window.location.hostname}`);
+    createFloatingCounter();
+    loadTimeSpent();
+    intervalId = setInterval(() => {
+      timeSpent += 1;
+      saveTimeSpent();
+      updateFloatingCounter(timeSpent);
+      if (window.location.hostname.includes("reddit.com") || window.location.pathname.startsWith("/shorts")){
+	window.location.href = "about:blank";
+      }
+      }, 1000);
     }
-    if (window.location.hostname.includes("reddit.com")){
-        window.location.href = "about:blank";
-    }
+  console.log(window.location.hostname);
+  console.log(window.location.pathname);
+  if (window.location.hostname.includes("reddit.com") || window.location.pathname.startsWith("/shorts")){
+    window.location.href = "about:blank";
+  }
 }
 
 function stopTracking() {

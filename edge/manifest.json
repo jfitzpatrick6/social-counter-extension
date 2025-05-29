@@ -4,7 +4,7 @@
     "version": "1.0",
     "description": "Tracks time spent on social media websites.",
     "permissions": ["activeTab", "tabs", "storage"],
-    "host_permissions": ["*://*.facebook.com/*", "*://*.twitter.com/*", "*://*.instagram.com/*", "*://*.reddit.com/*"],
+    "host_permissions": ["*://*.facebook.com/*", "*://*.twitter.com/*", "*://*.instagram.com/*", "*://*.reddit.com/*", "*://*.youtube.com/*"],
     "action": {
     "default_popup": "popup.html",
     "default_icon": {
@@ -15,7 +15,7 @@
     },
     "content_scripts": [
     {
-        "matches": ["*://*.facebook.com/*", "*://*.twitter.com/*", "*://*.instagram.com/*", "*://*.reddit.com/*"],
+        "matches": ["*://*.facebook.com/*", "*://*.twitter.com/*", "*://*.instagram.com/*", "*://*.reddit.com/*", "*://*.youtube.com/*"],
         "js": ["content.js"]
     }
     ]
