@@ -49,14 +49,14 @@ function startTracking() {
       timeSpent += 1;
       saveTimeSpent();
       updateFloatingCounter(timeSpent);
-      if (window.location.hostname.includes("reddit.com") || window.location.pathname.startsWith("/shorts")){
+      if (window.location.hostname.includes("reddit.com") || window.location.pathname.startsWith("/shorts") || window.location.pathname.startsWith("/reel")){
 	window.location.href = "about:blank";
       }
       }, 1000);
     }
   console.log(window.location.hostname);
   console.log(window.location.pathname);
-  if (window.location.hostname.includes("reddit.com") || window.location.pathname.startsWith("/shorts")){
+  if (window.location.hostname.includes("reddit.com") || window.location.pathname.startsWith("/shorts") || window.location.pathname.startsWith("/reel")){
     window.location.href = "about:blank";
   }
 }
